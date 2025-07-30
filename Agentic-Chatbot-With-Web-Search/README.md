@@ -1,13 +1,32 @@
-# Agentic Chatbot with Web Search using LangGraph
+# Conversational AI with Dynamic Web Search: An Agentic RAG System
 
-This project is an agentic chatbot built with LangGraph that can search the web to answer user queries. It utilizes Python, LangChain, and Streamlit to create a web-based conversational AI.
+This project demonstrates a sophisticated, end-to-end conversational AI system capable of answering questions by dynamically searching the web for up-to-date information. It functions as an **Agentic Retrieval-Augmented Generation (RAG)** system, where an AI agent autonomously decides when it needs to use external tools—in this case, a web search—to find information it doesn't already know.
 
-## Features
+The application is built using a powerful combination of **LangGraph** for agentic workflow orchestration and **Streamlit** for a clean, interactive user interface, showcasing a full-stack approach to building modern, stateful AI applications.
 
--   **Web Search:** The chatbot can search the web to find information to answer user queries.
--   **Conversational AI:** The chatbot can engage in conversations with users.
--   **Streamlit Interface:** The project includes a web-based user interface built with Streamlit.
--   **Powered by LangGraph:** The core agent logic is built using LangGraph, allowing for the creation of complex, stateful, and multi-agent workflows.
+## Core Features & Technical Highlights
+
+*   **Autonomous Tool Use:** The core of this project is an AI agent that possesses the ability to reason. When faced with a question it cannot answer from its internal knowledge, it autonomously decides to use the **Tavily web search tool** to retrieve relevant, real-time information from the internet.
+*   **Stateful, Graph-Based Logic:** The entire conversational flow is managed by a state machine built with **LangGraph**. This graph defines the possible paths of the conversation: from receiving a user query, to the agent deciding to use a tool, to executing the search, and finally to generating a response based on the search results. This is a robust alternative to simple chains, allowing for more complex and reliable agentic behavior.
+*   **High-Performance LLM Integration:** The system leverages the **Groq API** for its Large Language Model, enabling extremely fast inference speeds and making the conversational experience smooth and responsive.
+*   **Interactive Web Interface:** A user-friendly web application built with **Streamlit** serves as the frontend, allowing users to easily interact with the chatbot. The interface is designed to clearly display the conversation history and the AI's responses.
+*   **End-to-End System:** This is a complete, self-contained application demonstrating all stages of an agentic RAG system: user input, intelligent tool use, information retrieval, and response generation.
+
+## How It Works: The Agent's Decision-Making Flow
+
+The power of this application comes from its LangGraph-powered workflow, which enables the agent to "think" about its next step.
+
+1.  **User Query:** The process starts when a user asks a question in the Streamlit UI.
+2.  **Initial Analysis (Router):** The query is first sent to a "router" within the LangGraph. This router, powered by the LLM, determines whether the question can be answered directly or if it requires external information.
+3.  **Conditional Edge - The "If" statement:**
+    *   **If No Search Needed:** If the router decides the query is a simple greeting or a question it can answer, it follows a path to a basic conversational node, and the LLM generates a direct response.
+    *   **If Search Needed:** If the router determines the query requires web information, it follows a different path to the `chatbot_with_Tool_node`.
+4.  **Tool Execution:** The tool-enabled node invokes the **Tavily Search API**, retrieves the search results, and adds them to the agent's current state.
+5.  **Synthesized Response:** The original query and the newly acquired search results are passed back to the LLM, which then generates a comprehensive answer based on the retrieved context.
+6.  **Display Result:** The final answer is streamed back to the Streamlit UI for the user to see.
+
+This entire conditional logic is explicitly defined in the `graph_builder.py` file, showcasing a clear and maintainable implementation of a complex agentic system.
+
 
 ## Getting Started
 
